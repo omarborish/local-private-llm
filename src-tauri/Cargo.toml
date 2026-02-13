@@ -1,0 +1,31 @@
+[package]
+name = "local-private-llm"
+version = "0.1.0"
+description = "Local Private LLM — 100% offline ChatGPT-style desktop app"
+authors = ["Local Private LLM"]
+license = "MIT"
+repository = ""
+default-run = "local-private-llm"
+edition = "2021"
+rust-version = "1.70"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+reqwest = { version = "0.12", features = ["json", "stream", "blocking"] }
+tokio = { version = "1", features = ["full"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+uuid = { version = "1", features = ["v4"] }
+dirs = "5"
+thiserror = "1"
+chrono = "0.4"
+futures-util = "0.3"
+urlencoding = "2"
+
+[features]
+default = []

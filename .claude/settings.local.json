@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"C:\\\\Users\\\\omarb\\\\Desktop\\\\Cursor\\\\Local Private LLM\" /s)",
+      "Bash(npm install)"
+    ]
+  }
+}

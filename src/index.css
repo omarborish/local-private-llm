@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Brand: orange primary, purple secondary, light backgrounds */
+    --background: 240 20% 98%;
+    --foreground: 240 10% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 10%;
+    --primary: 25 95% 53%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 60% 55%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 10% 94%;
+    --muted-foreground: 240 5% 45%;
+    --accent: 270 50% 92%;
+    --accent-foreground: 270 60% 30%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 15% 88%;
+    --input: 240 15% 88%;
+    --ring: 25 95% 53%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    /* Deep navy/purple dark theme */
+    --background: 240 25% 9%;
+    --foreground: 240 10% 95%;
+    --card: 240 20% 12%;
+    --card-foreground: 240 10% 95%;
+    --popover: 240 20% 12%;
+    --popover-foreground: 240 10% 95%;
+    --primary: 25 95% 55%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 270 55% 60%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 15% 18%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 270 40% 22%;
+    --accent-foreground: 270 50% 90%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 15% 20%;
+    --input: 240 15% 20%;
+    --ring: 25 95% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}
+
+/* Smooth streaming scroll */
+.chat-messages {
+  scroll-behavior: smooth;
+}

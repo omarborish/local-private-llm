@@ -62,7 +62,7 @@ impl Default for Settings {
             temperature: 0.7,
             max_tokens: 2048,
             tool_calling_mode: true,
-            inference_device_preference: "auto".to_string(),
+            inference_device_preference: "prefer_gpu".to_string(),
         }
     }
 }
@@ -273,7 +273,7 @@ impl Storage {
         let inference_device_preference: String = self
             .get_setting_optional("inference_device_preference")?
             .filter(|s| matches!(s.as_str(), "auto" | "prefer_gpu" | "force_cpu"))
-            .unwrap_or_else(|| "auto".to_string());
+            .unwrap_or_else(|| "prefer_gpu".to_string());
         Ok(Settings {
             theme,
             selected_model,

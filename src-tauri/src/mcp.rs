@@ -1839,7 +1839,8 @@ pub fn execute_tool(
         "open_terminal_and_run" => {
             let command = args.command.ok_or(McpToolError::InvalidArg("command required".into()))?;
             let shell = args.shell.as_deref().unwrap_or("powershell");
-            let keep_open = args.keep_open.unwrap_or(true);
+            // Always keep the terminal window open so the user can see output (avoid instant close).
+            let keep_open = true;
             let new_tab = args.new_tab.unwrap_or(false);
             let working_directory = args.working_directory.as_deref();
             match tool_open_terminal_and_run(shell, command.trim(), keep_open, working_directory, new_tab) {

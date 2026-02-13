@@ -1,5 +1,6 @@
 import { about } from "@/lib/about";
 import { Button } from "@/components/ui/button";
+import { api } from "@/lib/api";
 import { ExternalLink, Shield } from "lucide-react";
 
 interface AboutModalProps {
@@ -27,6 +28,14 @@ export function AboutModal({ onClose }: AboutModalProps) {
         </div>
 
         <div className="mt-4 space-y-4 text-sm">
+          <section>
+            <h3 className="font-medium text-foreground">What you need</h3>
+            <ul className="mt-1 list-inside list-disc space-y-0.5 text-muted-foreground">
+              <li><strong className="text-foreground">Ollama</strong> — Install and keep it running. The app talks to Ollama for chat and models.</li>
+              <li><strong className="text-foreground">Tools (optional)</strong> — Web search, terminal, files, etc.: turn them on in <strong className="text-foreground">Settings → MCP Tools</strong>, then click <strong className="text-foreground">Save</strong>. Keep <strong className="text-foreground">Tool Calling Mode</strong> ON when using tools.</li>
+              <li><strong className="text-foreground">Inference</strong> — Default is Prefer GPU. Change in Settings → Performance if needed.</li>
+            </ul>
+          </section>
           <section>
             <h3 className="font-medium text-foreground">Purpose</h3>
             <p className="mt-1 text-muted-foreground">{about.whyBuilt}</p>
@@ -75,17 +84,19 @@ export function AboutModal({ onClose }: AboutModalProps) {
                 </p>
               )}
               {contact.links.length > 0 && (
+                <p className="text-muted-foreground mt-1">Links (open in your browser):</p>
+              )}
+              {contact.links.length > 0 && (
                 <ul className="space-y-1">
                   {contact.links.map((link: { label: string; url: string }) => (
                     <li key={link.url}>
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-primary hover:underline"
+                      <button
+                        type="button"
+                        onClick={() => api.openUrl(link.url).catch(() => {})}
+                        className="inline-flex items-center gap-1 text-primary hover:underline text-left"
                       >
                         {link.label} <ExternalLink className="h-3 w-3" />
-                      </a>
+                      </button>
                     </li>
                   ))}
                 </ul>

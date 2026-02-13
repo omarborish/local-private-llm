@@ -20,7 +20,9 @@ import {
 import { api, type OllamaModelInfo } from "@/lib/api";
 import { DEFAULT_MODEL } from "@/lib/constants";
 import { useToast } from "@/components/ui/use-toast";
-import { Search, Download, Trash2, Check, Package } from "lucide-react";
+import { Search, Download, Trash2, Check, Package, ExternalLink } from "lucide-react";
+
+const OLLAMA_LIBRARY_URL = "https://ollama.com/library";
 import { cn } from "@/lib/utils";
 
 type Tab = "recommended" | "installed" | "all";
@@ -367,10 +369,18 @@ export function ModelLibraryModal({
           </ul>
         </ScrollArea>
 
-        <div className="shrink-0 border-t px-6 py-3">
+        <div className="shrink-0 border-t px-6 py-3 space-y-1">
           <p className="text-xs text-muted-foreground" title={RECOMMENDED_TOOLTIP}>
             Recommended models are tested for chat and tool use. Install with Download, then Use to switch.
           </p>
+          <button
+            type="button"
+            onClick={() => api.openUrl(OLLAMA_LIBRARY_URL).catch(() => toast({ title: "Could not open browser", description: OLLAMA_LIBRARY_URL, variant: "destructive" }))}
+            className="inline-flex items-center gap-1 text-xs text-muted-foreground underline hover:text-foreground"
+          >
+            <ExternalLink className="h-3 w-3" />
+            Browse all models at ollama.com
+          </button>
         </div>
       </DialogContent>
     </Dialog>

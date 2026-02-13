@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { open } from "@tauri-apps/plugin-shell";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { api } from "@/lib/api";
 import { PullProgress } from "@/lib/api";
-import { RefreshCw, Download, CheckCircle, XCircle } from "lucide-react";
+import { RefreshCw, Download, CheckCircle, XCircle, ExternalLink } from "lucide-react";
 
 const OLLAMA_DOWNLOAD_URL = "https://ollama.com/download";
+const OLLAMA_LIBRARY_URL = "https://ollama.com/library";
 
 interface OnboardingProps {
   ollamaOk: boolean;
@@ -31,7 +31,15 @@ export function Onboarding({
   const hasModel = models.includes(defaultModel) || models.some((m) => m.startsWith(defaultModel.split(":")[0]));
 
   const handleInstallOllama = () => {
-    open(OLLAMA_DOWNLOAD_URL);
+    api.openUrl(OLLAMA_DOWNLOAD_URL).catch(() => {
+      toast({ title: "Could not open browser", description: "Open this link manually: " + OLLAMA_DOWNLOAD_URL, variant: "destructive" });
+    });
+  };
+
+  const handleOpenModelLibrary = () => {
+    api.openUrl(OLLAMA_LIBRARY_URL).catch(() => {
+      toast({ title: "Could not open browser", description: "Open this link manually: " + OLLAMA_LIBRARY_URL, variant: "destructive" });
+    });
   };
 
   const handlePullModel = async () => {
@@ -85,13 +93,19 @@ export function Onboarding({
             </div>
           </div>
           {!ollamaOk && (
-            <div className="flex gap-2">
-              <Button onClick={handleInstallOllama} className="flex-1">
-                Install Ollama
-              </Button>
-              <Button variant="outline" onClick={onRefresh}>
-                <RefreshCw className="h-4 w-4" />
-              </Button>
+            <div className="space-y-2">
+              <div className="flex gap-2">
+                <Button onClick={handleInstallOllama} className="flex-1">
+                  <ExternalLink className="h-4 w-4 mr-1.5" />
+                  Install Ollama
+                </Button>
+                <Button variant="outline" onClick={onRefresh}>
+                  <RefreshCw className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Opens <button type="button" className="underline hover:text-foreground" onClick={handleInstallOllama}>ollama.com/download</button> in your browser.
+              </p>
             </div>
           )}
 
@@ -131,6 +145,13 @@ export function Onboarding({
                       </>
                     )}
                   </Button>
+                  <p className="text-xs text-muted-foreground">
+                    Or{" "}
+                    <button type="button" className="underline hover:text-foreground" onClick={handleOpenModelLibrary}>
+                      browse all models
+                    </button>{" "}
+                    at ollama.com (opens in browser).
+                  </p>
                   {pullError && (
                     <p className="text-sm text-destructive">{pullError}</p>
                   )}

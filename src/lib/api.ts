@@ -122,6 +122,7 @@ export const api = {
   emitDiagnosticLog: (level: string, message: string, meta?: Record<string, unknown>) =>
     invoke<void>("emit_diagnostic_log", { level, message, meta }),
   getAppDataDir: () => invoke<string>("get_app_data_dir"),
+  openUrl: (url: string) => invoke<string>("open_url", { url }),
   getGpuInfo: () => invoke<GpuInfoDto>("get_gpu_info"),
   getPerformanceStatus: () => invoke<PerformanceStatusDto>("get_performance_status"),
 

@@ -572,6 +572,37 @@ fn get_performance_status() -> PerformanceStatusDto {
     }
 }
 
+/// Open a URL in the system default browser. Used for "Install Ollama", model library, etc.
+#[tauri::command]
+fn open_url(url: String) -> Result<String, AppError> {
+    let url = url.trim();
+    if url.is_empty() {
+        return Err(AppError::Ollama("url cannot be empty".into()));
+    }
+    #[cfg(windows)]
+    {
+        std::process::Command::new("cmd")
+            .args(["/C", "start", "", url])
+            .spawn()
+            .map_err(|e| AppError::Io(e))?;
+    }
+    #[cfg(target_os = "macos")]
+    {
+        std::process::Command::new("open")
+            .arg(url)
+            .spawn()
+            .map_err(|e| AppError::Io(e))?;
+    }
+    #[cfg(not(any(windows, target_os = "macos")))]
+    {
+        std::process::Command::new("xdg-open")
+            .arg(url)
+            .spawn()
+            .map_err(|e| AppError::Io(e))?;
+    }
+    Ok(url.to_string())
+}
+
 #[tauri::command]
 fn get_app_data_dir() -> Result<String, AppError> {
     let dir = dirs::data_local_dir()
@@ -743,6 +774,7 @@ pub fn run(state: AppState) {
             cancel_chat_generation,
             emit_diagnostic_log,
             get_app_data_dir,
+            open_url,
         ])
         .run(tauri::generate_context!())
         .expect("error while running Local Private LLM");

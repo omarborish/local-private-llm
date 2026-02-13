@@ -20,6 +20,13 @@ import { formatDate } from "@/lib/utils";
 import { api, type ConversationDto, type McpSettingsDto } from "@/lib/api";
 import { DEFAULT_SYSTEM_PROMPT } from "@/lib/defaultSystemPrompt";
 import { DEFAULT_MODEL } from "@/lib/constants";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface SidebarProps {
   conversations: ConversationDto[];
@@ -290,14 +297,15 @@ function SettingsModal({ onClose, onOpenDiagnostics }: { onClose: () => void; on
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-      onClick={onClose}
-      role="presentation"
+      role="dialog"
+      aria-modal="true"
     >
       <div
         className="z-50 w-full max-w-md rounded-lg border bg-background p-6 shadow-lg max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-semibold">Settings</h2>
+        <p className="text-xs text-muted-foreground mt-1">Click Save to apply changes (including Tool Calling and MCP tools).</p>
         <div className="mt-4 space-y-4">
           <div>
             <label className="text-sm font-medium">Theme</label>
@@ -313,19 +321,23 @@ function SettingsModal({ onClose, onOpenDiagnostics }: { onClose: () => void; on
           </div>
           <div>
             <label className="text-sm font-medium">Model</label>
-            <select
+            <Select
               value={model || DEFAULT_MODEL}
-              onChange={(e) => setModel(e.target.value)}
-              className="mt-1 w-full rounded border bg-background px-3 py-2 text-sm"
+              onValueChange={(v) => setModel(v)}
             >
-              {models.length > 0 ? (
-                models.map((m) => (
-                  <option key={m} value={m}>{m}</option>
-                ))
-              ) : (
-                <option value={DEFAULT_MODEL}>{DEFAULT_MODEL} (pull via onboarding)</option>
-              )}
-            </select>
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder={DEFAULT_MODEL} />
+              </SelectTrigger>
+              <SelectContent className="max-h-[280px] overflow-y-auto">
+                {models.length > 0 ? (
+                  models.map((m) => (
+                    <SelectItem key={m} value={m}>{m}</SelectItem>
+                  ))
+                ) : (
+                  <SelectItem value={DEFAULT_MODEL}>{DEFAULT_MODEL} (pull via onboarding)</SelectItem>
+                )}
+              </SelectContent>
+            </Select>
           </div>
           <div>
             <label className="text-sm font-medium">System prompt</label>
@@ -465,8 +477,8 @@ function SettingsModal({ onClose, onOpenDiagnostics }: { onClose: () => void; on
                   <span className="text-sm font-medium">Terminal/CLI</span>
                 </label>
                 <p className="text-xs text-muted-foreground">
-                  Execute shell commands. <strong className="text-orange-600 dark:text-orange-400">High risk:</strong> Commands run with your user permissions. 
-                  One command per call. Full logging of command and output.
+                  Execute shell commands. On Windows a new PowerShell window opens when the assistant runs a command. <strong className="text-orange-600 dark:text-orange-400">High risk:</strong> Commands run with your user permissions.
+                  One command per call. Click Save to apply.
                 </p>
               </div>
             </div>

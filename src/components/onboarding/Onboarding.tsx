@@ -75,7 +75,7 @@ export function Onboarding({
       <div className="w-full max-w-md space-y-8 text-center">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Local Private LLM</h1>
-          <p className="mt-2 text-sm text-muted-foreground">100% offline. No tracking. Powered by Ollama (default: Qwen2.5 7B Instruct).</p>
+          <p className="mt-2 text-sm text-muted-foreground">100% offline. No tracking. Powered by Ollama (default: Qwen2.5 3B Instruct).</p>
         </div>
 
         <div className="space-y-4 rounded-lg border bg-card p-6 text-left">

@@ -9,9 +9,9 @@
   {
     "id": "qwen2.5:3b-instruct",
     "name": "Qwen 2.5 3B Instruct",
-    "tags": ["tools", "general"],
+    "tags": ["recommended", "tools", "general"],
     "min_ram_gb": 4,
-    "notes": "Lightweight; good for low-RAM or fast iteration."
+    "notes": "Default model. Lightweight; good for low-RAM or fast iteration."
   },
   {
     "id": "llama3.2:3b-instruct",

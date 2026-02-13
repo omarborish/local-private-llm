@@ -57,7 +57,7 @@ impl Default for Settings {
     fn default() -> Self {
         Self {
             theme: "system".to_string(),
-            selected_model: "qwen2.5:7b-instruct".to_string(),
+            selected_model: "qwen2.5:3b-instruct".to_string(),
             system_prompt: "You are a local/offline assistant running in this app. You do not have access to the internet unless the web_search tool is enabled and you explicitly call it. Be direct, accurate, and concise.".to_string(),
             temperature: 0.7,
             max_tokens: 2048,
@@ -253,7 +253,7 @@ impl Storage {
             .unwrap_or_else(|| "system".to_string());
         let selected_model: String = self
             .get_setting_optional("selected_model")?
-            .unwrap_or_else(|| "qwen2.5:7b-instruct".to_string());
+            .unwrap_or_else(|| "qwen2.5:3b-instruct".to_string());
         let system_prompt: String = self
             .get_setting_optional("system_prompt")?
             .filter(|s| !s.trim().is_empty())

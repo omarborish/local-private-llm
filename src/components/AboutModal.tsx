@@ -54,25 +54,44 @@ export function AboutModal({ onClose }: AboutModalProps) {
             <p className="mt-1 text-muted-foreground">{about.privacyPromise}</p>
           </section>
 
-          {contact.links.length > 0 && (
-            <section>
-              <h3 className="font-medium text-foreground">Links</h3>
-              <ul className="mt-2 space-y-1">
-                {contact.links.map((link) => (
-                  <li key={link.url}>
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-primary hover:underline text-sm"
-                    >
-                      {link.label} <ExternalLink className="h-3 w-3" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
+          <section>
+            <h3 className="font-medium text-foreground">Contact</h3>
+            <div className="mt-2 space-y-2 text-sm">
+              {"emails" in contact && contact.emails?.length > 0 && (
+                <div className="flex flex-wrap gap-x-1 gap-y-0.5">
+                  <span className="text-muted-foreground shrink-0">Email: </span>
+                  {(contact as { emails?: string[] }).emails!.map((email: string, i: number) => (
+                    <span key={email}>
+                      {i > 0 && ", "}
+                      <a href={`mailto:${email}`} className="text-primary hover:underline">{email}</a>
+                    </span>
+                  ))}
+                </div>
+              )}
+              {"phone" in contact && contact.phone && (
+                <p>
+                  <span className="text-muted-foreground">Phone: </span>
+                  <a href={`tel:${contact.phone}`} className="text-primary hover:underline">{contact.phone}</a>
+                </p>
+              )}
+              {contact.links.length > 0 && (
+                <ul className="space-y-1">
+                  {contact.links.map((link: { label: string; url: string }) => (
+                    <li key={link.url}>
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary hover:underline"
+                      >
+                        {link.label} <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </section>
         </div>
 
         <div className="mt-6 flex justify-end">
